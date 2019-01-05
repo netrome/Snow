@@ -3,3 +3,4 @@ legacy
 dist
 .cache
 node_modules
+static
