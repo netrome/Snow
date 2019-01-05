@@ -1,0 +1,5 @@
+__pycache__
+legacy
+dist
+.cache
+node_modules
