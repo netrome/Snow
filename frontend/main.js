@@ -1,23 +1,28 @@
 var utils = require("./utils");
 
 
-function generatePositionHook(scene, doges){
+function renderPositionHook(scene, pics, baseUrl){
     var addPositions = (positions) => {
-        // Gets the positions as serialized json, adds them to the scene
+        // Gets the positions and URLs as serialized json, adds them to the scene
 
-        JSON.parse(positions).forEach((pos) => {
-            var dog = utils.dogePic(pos[0], pos[1], pos[2]);
-            scene.add(dog);
-            doges.push(dog);
+        JSON.parse(positions).forEach((urlAndPos) => {
+            var urlEnd = urlAndPos[0];
+            var pos = urlAndPos[1];
+            var url = baseUrl + urlEnd.substring(2);
+            var pic = utils.picture(url, pos[0], pos[1], pos[2]);
+            scene.add(pic);
+            pics.push(pic);
+            console.log(pic);
         });
+        console.log("Pics loaded");
     };
     return addPositions;
 };
 
 
-function genUpdateDoges(doges, camera){
+function genUpdateDoges(pics, camera){
     var updateDoges = () => {
-        doges.forEach((doge) => { doge.lookAt(camera.position); });
+        pics.forEach((doge) => { doge.lookAt(camera.position); });
     };
     return updateDoges;
 };
@@ -25,19 +30,17 @@ function genUpdateDoges(doges, camera){
 
 function main(){
     var fundaments = utils.init();
-    var doges = [];
+    var pics = [];
 
-    // Check that pic gets added to scene
-    fundaments.scene.add(utils.dogePic(0, 0, 1));
-
-    var hooks = [fundaments.controls.update, genUpdateDoges(doges, fundaments.camera)];
+    var hooks = [fundaments.controls.update, genUpdateDoges(pics, fundaments.camera)];
 
     var animate = utils.getAnimate(fundaments, hooks);
     animate();
 
     // Get positions and add them to the scene
-    var addPositions = generatePositionHook(fundaments.scene, doges);
-    utils.requestPositions("http://localhost:5000/points", addPositions);
+    url = "http://localhost:5000/"
+    var addPositions = renderPositionHook(fundaments.scene, pics, url);
+    utils.requestPositions(url, addPositions);
 };
 
 

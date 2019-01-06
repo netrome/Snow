@@ -8,8 +8,9 @@ var camera, scene, renderer
 const loader = new THREE.TextureLoader();
 
 
+// Good for debugging purposes
 export function dogePic(x, y, z) {
-    var geometry = new THREE.PlaneGeometry( 0.1, 0.1, 0.1, 0.1 );
+    var geometry = new THREE.PlaneGeometry( 0.3, 0.3, 0.3, 0.3 );
     var material = new THREE.MeshLambertMaterial( { map: loader.load("https://yt3.ggpht.com/a-/AN66SAw_M_11Alp1TIDompdqcTC94F-T-BUKgNgSFw=s900-mo-c-c0xffffffff-rj-k-no") } );
     var plane = new THREE.Mesh( geometry, material);
     plane.position.set( x, y, z );
@@ -17,6 +18,17 @@ export function dogePic(x, y, z) {
 }
 
 
+// Main workhorse of this project
+export function picture(url, x, y, z){
+    var geometry = new THREE.PlaneGeometry( 0.2, 0.2, 0.2, 0.2 );
+    var material = new THREE.MeshBasicMaterial( { map: loader.load(url) } );
+    var plane = new THREE.Mesh( geometry, material);
+    plane.position.set( x, y, z );
+    return plane
+}
+
+
+// Get data from backend
 export function requestPositions(url, callback){
     // Gets the positions from the backend api
     var xhttp = new XMLHttpRequest();
@@ -40,14 +52,6 @@ export function init(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
-
-    // Add basic lights
-    var ambLight = new THREE.AmbientLight( 0x404040 );
-    var dirLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-    dirLight.position.set(3, 2, 4);
-    dirLight.target = dogePic(0, 0, 0);
-    scene.add( ambLight );
-    scene.add( dirLight );
 
     // Add controls
     var controls = new THREE.OrbitControls( camera );
