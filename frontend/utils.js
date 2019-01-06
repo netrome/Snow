@@ -20,7 +20,7 @@ export function dogePic(x, y, z) {
 
 // Main workhorse of this project
 export function picture(url, x, y, z){
-    var geometry = new THREE.PlaneGeometry( 0.2, 0.2, 0.2, 0.2 );
+    var geometry = new THREE.PlaneGeometry( 0.1, 0.1, 0.1, 0.1 );
     var material = new THREE.MeshBasicMaterial( { map: loader.load(url) } );
     var plane = new THREE.Mesh( geometry, material);
     plane.position.set( x, y, z );

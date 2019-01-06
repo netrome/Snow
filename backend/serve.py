@@ -24,15 +24,16 @@ def init():
     paths = get_paths("./static/images")
     toserve = paths
     latent = to_latent_vector(paths)
-    print(latent)
-    print(latent.shape)
 
     print("Performing the UMAP")
     embedding = umap.UMAP(
         n_components=3,
-        n_neighbors=3,
+        n_neighbors=8,
         min_dist=0.5,
         metric='correlation').fit_transform(latent)
+
+    # Normalize embedding
+    embedding = (embedding - embedding.mean()) / embedding.std()
 
     # Convert numpy to nested list, and prepare a list of 
     #  path-point pairs that can be json serializable
