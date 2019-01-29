@@ -1,4 +1,7 @@
 # Snow: Super normal ordinary viscious visualization
 
-## Feature/Todos
-Get points from some backend (python), and visualize these in 3D space.
+## Features
+- Python backend that projects a image dataset down to three dimensions.
+- THREE.js powered visualization of the images in this space.
+
+![](example.gif)
